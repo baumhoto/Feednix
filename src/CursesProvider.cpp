@@ -294,6 +294,7 @@ void CursesProvider::eventHandler(){
     }
 }
 void CursesProvider::createCategoriesMenu(){
+    int height, width;
     int n_choices, i = 2;
     const std::map<std::string, std::string> *labels = feedly.getLabels();
 
@@ -318,8 +319,11 @@ void CursesProvider::createCategoriesMenu(){
     ctgWin = newwin((LINES - 2 - viewWinHeight), ctgWinWidth, 0, 0);
     keypad(ctgWin, TRUE);
 
+    getmaxyx(ctgWin, height, width);
+
     set_menu_win(ctgMenu, ctgWin);
-    set_menu_sub(ctgMenu, derwin(ctgWin, 0, (ctgWinWidth - 2), 3, 1));
+    set_menu_sub(ctgMenu, derwin(ctgWin, height-4, width-2, 3, 1));
+    set_menu_format(ctgMenu, height-4, 0);
 
     set_menu_fore(ctgMenu, COLOR_PAIR(7) | A_REVERSE);
     set_menu_back(ctgMenu, COLOR_PAIR(6));
